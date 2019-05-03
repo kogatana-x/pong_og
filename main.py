@@ -9,6 +9,7 @@ from kivy.clock import Clock
 class PongPaddle(Widget):
     score = NumericProperty(0)
 
+    #the bouncy boi: speeds up & uses geometry
     def bounce_ball(self, ball):
         if self.collide_widget(ball):
             vx, vy = ball.velocity
@@ -17,7 +18,7 @@ class PongPaddle(Widget):
             vel = bounced * 1.1
             ball.velocity = vel.x, vel.y + offset
 
-
+#ball properties
 class PongBall(Widget):
     velocity_x = NumericProperty(0)
     velocity_y = NumericProperty(0)
@@ -26,7 +27,7 @@ class PongBall(Widget):
     def move(self):
         self.pos = Vector(*self.velocity) + self.pos
 
-
+#game board properites
 class PongGame(Widget):
     ball = ObjectProperty(None)
     player1 = ObjectProperty(None)
@@ -36,7 +37,7 @@ class PongGame(Widget):
         self.ball.center = self.center
         self.ball.velocity = vel
 
-    def update(self, dt):
+    def update(self, dt): #update colors too?!**
         self.ball.move()
 
         # bounce of paddles
@@ -61,12 +62,12 @@ class PongGame(Widget):
         if touch.x > self.width - self.width / 3:
             self.player2.center_y = touch.y
 
-
+#game board init
 class PongApp(App):
     def build(self):
         game = PongGame()
         game.serve_ball()
-        Clock.schedule_interval(game.update, 1.0 / 60.0)
+        Clock.schedule_interval(game.update, 1.0 / 60.0) #disp timer **
         return game
 
 
